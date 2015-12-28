@@ -10,9 +10,13 @@ import RPi.GPIO as GPIO
 
 __author__ = 'tomekceszke'
 
+# sleep interval after alarm
+SLEEP = 300
+# log's path
+LOG_PATH = '/var/log/irsensor.log'
+# GPIO channels
 IRSENSOR_RELAY_CH = 12
 IRSENSOR_RECEIVER_CH = 22
-SLEEP = 300
 
 
 def setup():
@@ -21,7 +25,7 @@ def setup():
     GPIO.setup(IRSENSOR_RELAY_CH, GPIO.OUT)  # , initial=GPIO.HIGH)
     GPIO.setup(IRSENSOR_RECEIVER_CH, GPIO.IN)  # , pull_up_down=GPIO.PUD_DOWN)
     # Logger
-    log.basicConfig(filename='/var/log/irsensor.log', filemode='w', format='%(asctime)s %(levelname)s: %(message)s',
+    log.basicConfig(filename=LOG_PATH, filemode='w', format='%(asctime)s %(levelname)s: %(message)s',
                     level=log.DEBUG)
     # Graceful exit
     for sig in (SIGABRT, SIGILL, SIGINT, SIGSEGV, SIGTERM):
@@ -66,14 +70,14 @@ def monitor():
         if GPIO.input(IRSENSOR_RECEIVER_CH) == GPIO.LOW:
             time.sleep(0.1)
             if GPIO.input(IRSENSOR_RECEIVER_CH) == GPIO.LOW:
-                log.warning("IR Alert!")
-                send_email("IR Sensor", "Alert!")
+                log.warning("IR Alarm!")
+                send_email("IR Sensor", "Alarm!")
                 toggle_irsensor(False)
                 log.debug("Sleeping " + str(SLEEP) + " sec...")
                 time.sleep(SLEEP)
                 toggle_irsensor(True)
             else:
-                log.warning("Fake alert")
+                log.warning("False alarm")
         time.sleep(0.1)
 
 
