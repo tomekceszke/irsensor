@@ -8,7 +8,7 @@ from signal import *
 
 import RPi.GPIO as GPIO
 
-__author__ = 'tomek.ceszke'
+__author__ = 'tomekceszke'
 
 IRSENSOR_RELAY_CH = 12
 IRSENSOR_RECEIVER_CH = 22
@@ -67,7 +67,7 @@ def monitor():
             time.sleep(0.1)
             if GPIO.input(IRSENSOR_RECEIVER_CH) == GPIO.LOW:
                 log.warning("IR Alert!")
-                send_email("IR Sensor", "Alarm!")
+                send_email("IR Sensor", "Alert!")
                 toggle_irsensor(False)
                 log.debug("Sleeping " + str(SLEEP) + " sec...")
                 time.sleep(SLEEP)
