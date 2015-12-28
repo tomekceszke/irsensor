@@ -1,2 +1,9 @@
-# irsensor
-Banana Pi (GPIO) + garage infrared sensor + email notification
+# irsensor - python script for monitoring infrared barrier
+
+## Hardware
+* InfraRed Sensors (Rx+Tx)
+* Banana Pi
+
+## Software
+* Rpi.GPIO library
+
