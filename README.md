@@ -1,9 +1,13 @@
-# irsensor - python script for monitoring infrared barrier
+# irsensor
+*Python script for monitoring infrared barrier*
 
-## Hardware
+### Hardware
 * InfraRed Sensors (Rx+Tx)
 * Banana Pi
 
-## Software
+### Software
 * Rpi.GPIO library
 
+### Features
+* Constantly checks signal from IR receiver 
+* Sends an email in case of breaking infrared barrier

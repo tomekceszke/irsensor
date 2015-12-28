@@ -1,0 +1,3 @@
+user = 'your@gmail.com'
+pwd = 'gmailPassword'
+recipient = 'recipient@email.com'
