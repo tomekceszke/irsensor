@@ -15,27 +15,6 @@ IRSENSOR_RECEIVER_CH = 22
 SLEEP = 300
 
 
-def send_email(subject, body):
-    import smtplib
-    import settings
-
-    user = settings.user
-    pwd = settings.pwd
-    to = settings.recipient if type(settings.recipient) is list else [settings.recipient]
-    message = """\From: %s\nTo: %s\nSubject: %s\n\n%s
-    """ % (user, ", ".join(to), subject, body)
-    try:
-        server = smtplib.SMTP("smtp.gmail.com", 587)
-        server.ehlo()
-        server.starttls()
-        server.login(user, pwd)
-        server.sendmail(user, to, message)
-        server.close()
-        log.debug('Sent the mail')
-    except:
-        log.error("Failed to send mail")
-
-
 def setup():
     # GPIO
     GPIO.setmode(GPIO.BOARD)
@@ -57,6 +36,27 @@ def toggle_irsensor(activated=True):
         GPIO.output(IRSENSOR_RELAY_CH, GPIO.LOW)
         log.info("IRSENSOR activated")
     time.sleep(1)
+
+
+def send_email(subject, body):
+    import smtplib
+    import settings
+
+    user = settings.user
+    pwd = settings.pwd
+    to = settings.recipient if type(settings.recipient) is list else [settings.recipient]
+    message = """\From: %s\nTo: %s\nSubject: %s\n\n%s
+    """ % (user, ", ".join(to), subject, body)
+    try:
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.ehlo()
+        server.starttls()
+        server.login(user, pwd)
+        server.sendmail(user, to, message)
+        server.close()
+        log.debug('Sent the mail')
+    except:
+        log.error("Failed to send mail")
 
 
 def monitor():
