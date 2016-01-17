@@ -1,0 +1,3 @@
+import notifier
+
+notifier.notify()

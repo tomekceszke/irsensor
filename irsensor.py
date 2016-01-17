@@ -4,6 +4,7 @@
 import logging as log
 import sys
 import time
+import notifier
 from signal import *
 
 import RPi.GPIO as GPIO
@@ -42,27 +43,6 @@ def toggle_irsensor(activated=True):
     time.sleep(1)
 
 
-def send_email(subject, body):
-    import smtplib
-    import settings
-
-    user = settings.user
-    pwd = settings.pwd
-    to = settings.recipient if type(settings.recipient) is list else [settings.recipient]
-    message = """\From: %s\nTo: %s\nSubject: %s\n\n%s
-    """ % (user, ", ".join(to), subject, body)
-    try:
-        server = smtplib.SMTP("smtp.gmail.com", 587)
-        server.ehlo()
-        server.starttls()
-        server.login(user, pwd)
-        server.sendmail(user, to, message)
-        server.close()
-        log.debug('Sent the mail')
-    except:
-        log.error("Failed to send mail")
-
-
 def monitor():
     log.info("Start monitoring...")
     while True:
@@ -71,7 +51,7 @@ def monitor():
             time.sleep(0.1)
             if GPIO.input(IRSENSOR_RECEIVER_CH) == GPIO.LOW:
                 log.warning("IR Alarm!")
-                send_email("IR Sensor", "Alarm!")
+                notifier.notify()
                 toggle_irsensor(False)
                 log.debug("Sleeping " + str(SLEEP) + " sec...")
                 time.sleep(SLEEP)

@@ -1,3 +1,8 @@
-user = 'your@gmail.com'
-pwd = 'gmailPassword'
-recipient = 'recipient@email.com'
+# SMTP settings
+user = ''
+pwd = ''
+recipient = ''
+
+# Google Cloud Message settings
+gcm_api = ''
+registration_id = ''
