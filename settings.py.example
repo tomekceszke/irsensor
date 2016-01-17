@@ -3,6 +3,6 @@ user = ''
 pwd = ''
 recipient = ''
 
-# Google Cloud Message settings
+# Google Cloud Messaging settings
 gcm_api = ''
 registration_id = ''
