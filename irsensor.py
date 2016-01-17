@@ -11,7 +11,7 @@ import RPi.GPIO as GPIO
 __author__ = 'tomekceszke'
 
 # sleep interval after alarm
-SLEEP = 300
+SLEEP = 600
 # log's path
 LOG_PATH = '/var/log/irsensor.log'
 # GPIO channels
@@ -28,8 +28,8 @@ def setup():
     log.basicConfig(filename=LOG_PATH, filemode='w', format='%(asctime)s %(levelname)s: %(message)s',
                     level=log.DEBUG)
     # Graceful exit
-    for sig in (SIGABRT, SIGILL, SIGINT, SIGSEGV, SIGTERM):
-        signal(sig, cleanup)
+    # for sig in ( SIGILL, SIGINT, SIGSEGV, SIGTERM):
+    signal(SIGTERM, sys.exit)
 
 
 def toggle_irsensor(activated=True):
@@ -81,10 +81,10 @@ def monitor():
         time.sleep(0.1)
 
 
-def cleanup(*args):
+def cleanup():
     GPIO.output(IRSENSOR_RELAY_CH, GPIO.HIGH)
     GPIO.cleanup()
-    log.debug("Cleaning up!")
+    log.info("Cleaned up. Bye.")
     sys.exit(0)
 
 
